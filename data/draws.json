@@ -1,5 +1,31 @@
 [
   {
+    "draw_number": 3203,
+    "draw_date": "2026-09-02",
+    "draw1": {
+      "numbers": [
+        1,
+        15,
+        21,
+        24,
+        32,
+        51
+      ],
+      "bonus": 9
+    },
+    "draw2": {
+      "numbers": [
+        3,
+        4,
+        20,
+        38,
+        46,
+        47
+      ],
+      "bonus": 33
+    }
+  },
+  {
     "draw_number": 3202,
     "draw_date": "2026-08-29",
     "draw1": {
