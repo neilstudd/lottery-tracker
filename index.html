@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK National Lottery History</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>UK National Lottery Results</h1>
+        <div class="btn-group">
+            <button class="btn" id="openAddTicketModal">Add Ticket</button>
+            <button class="btn btn-secondary" id="exportDataBtn">Export Data</button>
+            <button class="btn btn-secondary" id="importDataBtn">Import Data</button>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;">
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-label">Total Spent</div>
+            <div class="stat-value" id="totalSpentVal">£0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Total Winnings</div>
+            <div class="stat-value" id="totalWinningsVal">£0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">P/L</div>
+            <div class="stat-value pl-neutral" id="profitLossVal">£0</div>
+        </div>
+    </div>
+
+    <div id="upcomingSection" style="display: none;">
+        <h2 class="section-title">Upcoming Draws</h2>
+        <table class="lottery-grid">
+            <thead>
+                <tr>
+                    <th>Draw #</th>
+                    <th>Draw Date</th>
+                    <th>My Ticket Numbers</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="upcomingTableBody"></tbody>
+        </table>
+    </div>
+
+    <h2 class="section-title">Past Results</h2>
+    <table class="lottery-grid">
+        <thead>
+            <tr>
+                <th>Draw #</th>
+                <th>Draw Date</th>
+                <th>Draw Results</th>
+                <th>Matched</th>
+                <th>Winnings</th>
+            </tr>
+        </thead>
+        <tbody id="pastTableBody"></tbody>
+    </table>
+
+    <!-- Modal Form for Adding Tickets -->
+    <div class="modal-overlay" id="ticketModal">
+        <div class="form-card">
+            <h1>Add or Update Ticket</h1>
+            <form id="addTicketForm">
+                <div class="form-group">
+                    <label for="drawDateSelect">Select Draw Date</label>
+                    <select id="drawDateSelect" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Ticket Numbers (6 Main Balls)</label>
+                    <div class="numbers-row">
+                        <input type="number" id="n1" min="1" max="59" required>
+                        <input type="number" id="n2" min="1" max="59" required>
+                        <input type="number" id="n3" min="1" max="59" required>
+                        <input type="number" id="n4" min="1" max="59" required>
+                        <input type="number" id="n5" min="1" max="59" required>
+                        <input type="number" id="n6" min="1" max="59" required>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn btn-secondary">Save Ticket</button>
+                    <button type="button" class="cancel-link" id="closeModalBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
