@@ -357,7 +357,8 @@ document.getElementById('importFileInput').addEventListener('change', (e) => {
                 alert('Invalid JSON format.');
             }
         } catch (err) {
-            alert('Error parsing JSON file: ' + err.message);\n        }
+            alert('Error parsing JSON file: ' + err.message);
+        }
     };
     reader.readAsText(file);
 });
