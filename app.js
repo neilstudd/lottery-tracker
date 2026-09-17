@@ -204,9 +204,10 @@ function renderApp() {
     pastTbody.innerHTML = drawsData.map(draw => {
         const userTicket = ticketsData[draw.draw_number];
         const ticketNums = userTicket ? normalizeTicketNumbers(userTicket.numbers) : null;
+        const hasDraw2 = draw.draw_number > 3178 && !!draw.draw2;
 
         const m1Matches = ticketNums ? draw.draw1.numbers.filter(n => ticketNums.includes(n)).length : 0;
-        const m2Matches = (ticketNums && draw.draw_number > 3178) ? draw.draw2.numbers.filter(n => ticketNums.includes(n)).length : 0;
+        const m2Matches = (ticketNums && hasDraw2) ? draw.draw2.numbers.filter(n => ticketNums.includes(n)).length : 0;
 
         let winningsCellHTML = '<span class="match-text">n/a</span>';
         if (userTicket) {
@@ -233,14 +234,14 @@ function renderApp() {
                 <td>
                     <div class="draw-stacked-container">
                         <div class="draw-row">
-                            <span class="draw-label">Draw 1:</span>
+                            <span class="draw-label">${hasDraw2 ? 'Draw 1:' : 'Draw:'}</span>
                             <div class="ball-container">
                                 ${draw.draw1.numbers.map(n => renderBallHTML(n, ticketNums)).join('')}
                                 <div class="divider"></div>
                                 ${renderBallHTML(draw.draw1.bonus, ticketNums, true)}
                             </div>
                         </div>
-                        ${draw.draw_number > 3178 ? `
+                        ${hasDraw2 ? `
                         <div class="draw-row">
                             <span class="draw-label">Draw 2:</span>
                             <div class="ball-container">
@@ -254,7 +255,7 @@ function renderApp() {
                 <td>
                     <div class="draw-stacked-container">
                         <div class="draw-row">${renderMatchCountHTML(draw.draw1.numbers, draw.draw1.bonus, ticketNums)}</div>
-                        ${draw.draw_number > 3178 ? `<div class="draw-row">${renderMatchCountHTML(draw.draw2.numbers, draw.draw2.bonus, ticketNums)}</div>` : ''}
+                        ${hasDraw2 ? `<div class="draw-row">${renderMatchCountHTML(draw.draw2.numbers, draw.draw2.bonus, ticketNums)}</div>` : ''}
                     </div>
                 </td>
                 <td>${winningsCellHTML}</td>
