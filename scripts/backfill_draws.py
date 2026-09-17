@@ -93,7 +93,7 @@ def backfill():
         print("[ERROR] Cannot proceed with backfill: unable to determine latest draw ID.")
         return
 
-    start_id = latest_id - 19
+    start_id = latest_id - 49
     end_id = latest_id
 
     existing_draws = {}
@@ -105,7 +105,7 @@ def backfill():
             except json.JSONDecodeError:
                 existing_draws = {}
 
-    print(f"Starting backfill for the 20 most recent draws (IDs {start_id} to {end_id} inclusive)...")
+    print(f"Starting backfill for the 50 most recent draws (IDs {start_id} to {end_id} inclusive)...")
     for draw_id in range(start_id, end_id + 1):
         print(f"Fetching draw #{draw_id}...")
         data = fetch_draw(draw_id)
