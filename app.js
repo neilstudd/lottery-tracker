@@ -4,6 +4,14 @@ const BASE_DRAW_DATE = new Date(2026, 7, 22); // Month is 0-indexed (7 = August)
 let drawsData = [];
 let ticketsData = JSON.parse(localStorage.getItem('lottery_tickets') || '{}');
 
+function normalizeTicketNumbers(numbers) {
+    if (!Array.isArray(numbers)) return [];
+    return [...numbers]
+        .map(n => Number(n))
+        .filter(n => Number.isFinite(n))
+        .sort((a, b) => a - b);
+}
+
 // Mathematical Draw Calculation Functions
 function calculateDrawNumber(dateObj) {
     const deltaDays = Math.floor((dateObj - BASE_DRAW_DATE) / (1000 * 60 * 60 * 24));
@@ -56,7 +64,8 @@ function getBallColorClass(num) {
 
 function renderBallHTML(num, userTicketNumbers, isBonus = false) {
     const colorClass = getBallColorClass(num);
-    const isMatch = userTicketNumbers && userTicketNumbers.includes(num);
+    const normalizedUserNumbers = normalizeTicketNumbers(userTicketNumbers);
+    const isMatch = normalizedUserNumbers.includes(num);
     const matchedClass = isMatch ? 'matched' : '';
 
     let labelHTML = '';
@@ -73,10 +82,11 @@ function renderBallHTML(num, userTicketNumbers, isBonus = false) {
 }
 
 function renderMatchCountHTML(mainNums, bonusNum, userTicketNumbers) {
-    if (!userTicketNumbers) return '<span class="match-text">n/a</span>';
+    const normalizedUserNumbers = normalizeTicketNumbers(userTicketNumbers);
+    if (!normalizedUserNumbers.length) return '<span class="match-text">n/a</span>';
     
-    let matches = mainNums.filter(n => userTicketNumbers.includes(n)).length;
-    let bonusMatched = userTicketNumbers.includes(bonusNum);
+    let matches = mainNums.filter(n => normalizedUserNumbers.includes(n)).length;
+    let bonusMatched = normalizedUserNumbers.includes(bonusNum);
     let isWin = matches > 0 || bonusMatched;
     let winClass = isWin ? 'has-match' : '';
 
@@ -168,6 +178,7 @@ function renderApp() {
         upcomingSection.style.display = 'block';
         upcomingTbody.innerHTML = upcomingDrawNums.map(drawNum => {
             const ticket = ticketsData[drawNum];
+            const sortedTicketNumbers = normalizeTicketNumbers(ticket.numbers);
             const drawDate = calculateDrawDate(drawNum);
             return `
                 <tr>
@@ -175,7 +186,7 @@ function renderApp() {
                     <td>${formatDate(drawDate)}</td>
                     <td>
                         <div class="ball-container">
-                            ${ticket.numbers.map(n => renderBallHTML(n)).join('')}
+                            ${sortedTicketNumbers.map(n => renderBallHTML(n, sortedTicketNumbers)).join('')}
                         </div>
                     </td>
                     <td>
@@ -192,7 +203,7 @@ function renderApp() {
     const pastTbody = document.getElementById('pastTableBody');
     pastTbody.innerHTML = drawsData.map(draw => {
         const userTicket = ticketsData[draw.draw_number];
-        const ticketNums = userTicket ? userTicket.numbers : null;
+        const ticketNums = userTicket ? normalizeTicketNumbers(userTicket.numbers) : null;
 
         const m1Matches = ticketNums ? draw.draw1.numbers.filter(n => ticketNums.includes(n)).length : 0;
         const m2Matches = (ticketNums && draw.draw_number > 3178) ? draw.draw2.numbers.filter(n => ticketNums.includes(n)).length : 0;
@@ -289,14 +300,14 @@ document.getElementById('addTicketForm').addEventListener('submit', (e) => {
     const selectedDate = new Date(dateStr);
     const drawNum = calculateDrawNumber(selectedDate);
 
-    const nums = [
+    const nums = normalizeTicketNumbers([
         parseInt(document.getElementById('n1').value, 10),
         parseInt(document.getElementById('n2').value, 10),
         parseInt(document.getElementById('n3').value, 10),
         parseInt(document.getElementById('n4').value, 10),
         parseInt(document.getElementById('n5').value, 10),
         parseInt(document.getElementById('n6').value, 10)
-    ].sort((a, b) => a - b);
+    ]);
 
     ticketsData[drawNum] = {
         numbers: nums,
@@ -333,6 +344,12 @@ document.getElementById('importFileInput').addEventListener('change', (e) => {
         try {
             const importedTickets = JSON.parse(event.target.result);
             if (typeof importedTickets === 'object' && importedTickets !== null) {
+                Object.keys(importedTickets).forEach(drawNum => {
+                    const ticket = importedTickets[drawNum];
+                    if (ticket && typeof ticket === 'object') {
+                        ticket.numbers = normalizeTicketNumbers(ticket.numbers);
+                    }
+                });
                 ticketsData = { ...ticketsData, ...importedTickets };
                 saveTickets();
                 alert('Ticket data imported successfully!');
@@ -340,8 +357,7 @@ document.getElementById('importFileInput').addEventListener('change', (e) => {
                 alert('Invalid JSON format.');
             }
         } catch (err) {
-            alert('Error parsing JSON file: ' + err.message);
-        }
+            alert('Error parsing JSON file: ' + err.message);\n        }
     };
     reader.readAsText(file);
 });
