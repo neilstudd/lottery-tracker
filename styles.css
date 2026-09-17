@@ -34,6 +34,10 @@ body {
 .btn-secondary:hover {
     background-color: #218838;
 }
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
 
 .stats-container {
     display: flex;
@@ -96,6 +100,24 @@ body {
 }
 .lottery-grid tr:hover {
     background-color: #f1f3f5;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 0 30px;
+    flex-wrap: wrap;
+}
+.pagination-btn {
+    min-width: 90px;
+}
+.pagination-status {
+    min-width: 120px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
 }
 
 .draw-stacked-container {

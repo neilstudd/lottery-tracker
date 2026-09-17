@@ -1,8 +1,10 @@
 const BASE_DRAW_NUM = 3200;
 const BASE_DRAW_DATE = new Date(2026, 7, 22); // Month is 0-indexed (7 = August)
+const PAGE_SIZE = 50;
 
 let drawsData = [];
 let ticketsData = JSON.parse(localStorage.getItem('lottery_tickets') || '{}');
+let currentPage = 1;
 
 function normalizeTicketNumbers(numbers) {
     if (!Array.isArray(numbers)) return [];
@@ -10,6 +12,34 @@ function normalizeTicketNumbers(numbers) {
         .map(n => Number(n))
         .filter(n => Number.isFinite(n))
         .sort((a, b) => a - b);
+}
+
+function getTotalPages() {
+    return Math.max(1, Math.ceil(drawsData.length / PAGE_SIZE));
+}
+
+function getCurrentPageDraws() {
+    const totalPages = getTotalPages();
+    if (currentPage > totalPages) {
+        currentPage = totalPages;
+    }
+    const startIndex = (currentPage - 1) * PAGE_SIZE;
+    return drawsData.slice(startIndex, startIndex + PAGE_SIZE);
+}
+
+function updatePaginationControls() {
+    const totalPages = getTotalPages();
+    const statusEl = document.getElementById('paginationStatus');
+    const firstBtn = document.getElementById('firstPageBtn');
+    const prevBtn = document.getElementById('prevPageBtn');
+    const nextBtn = document.getElementById('nextPageBtn');
+    const lastBtn = document.getElementById('lastPageBtn');
+
+    statusEl.textContent = `Page ${currentPage} of ${totalPages}`;
+    firstBtn.disabled = currentPage === 1;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage >= totalPages;
+    lastBtn.disabled = currentPage >= totalPages;
 }
 
 // Mathematical Draw Calculation Functions
@@ -134,7 +164,7 @@ function renderApp() {
     const today = new Date();
     today.setHours(23, 59, 59, 999);
 
-    // Calculate Stats
+    // Calculate Stats using the full results set, not just the current page.
     let pastTicketsCount = 0;
     let totalWinnings = 0;
 
@@ -164,6 +194,8 @@ function renderApp() {
         plEl.className = 'stat-value pl-neutral';
         plEl.textContent = '£0';
     }
+
+    updatePaginationControls();
 
     // Render Upcoming Tickets Table
     const upcomingDrawNums = Object.keys(ticketsData)
@@ -199,9 +231,10 @@ function renderApp() {
         upcomingSection.style.display = 'none';
     }
 
-    // Render Past Results Table
+    // Render a single page of past results
+    const pagedDraws = getCurrentPageDraws();
     const pastTbody = document.getElementById('pastTableBody');
-    pastTbody.innerHTML = drawsData.map(draw => {
+    pastTbody.innerHTML = pagedDraws.map(draw => {
         const userTicket = ticketsData[draw.draw_number];
         const ticketNums = userTicket ? normalizeTicketNumbers(userTicket.numbers) : null;
         const hasDraw2 = draw.draw_number > 3178 && !!draw.draw2;
@@ -362,6 +395,26 @@ document.getElementById('importFileInput').addEventListener('change', (e) => {
         }
     };
     reader.readAsText(file);
+});
+
+document.getElementById('firstPageBtn').addEventListener('click', () => {
+    currentPage = 1;
+    renderApp();
+});
+
+document.getElementById('prevPageBtn').addEventListener('click', () => {
+    currentPage = Math.max(1, currentPage - 1);
+    renderApp();
+});
+
+document.getElementById('nextPageBtn').addEventListener('click', () => {
+    currentPage = Math.min(getTotalPages(), currentPage + 1);
+    renderApp();
+});
+
+document.getElementById('lastPageBtn').addEventListener('click', () => {
+    currentPage = getTotalPages();
+    renderApp();
 });
 
 // App Initialization
