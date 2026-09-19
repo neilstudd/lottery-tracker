@@ -175,7 +175,7 @@ function renderApp() {
         upcomingSection.style.display = 'block';
         upcomingTbody.innerHTML = upcomingDrawNums.map(drawNum => {
             const numbers = normalizeTicketNumbers(ticketsData[drawNum].numbers);
-            return `<tr><td>${drawNum}</td><td>${formatDate(calculateDrawDate(drawNum))}</td><td><div class="ball-container">${numbers.map(n => renderBallHTML(n, [])).join('')}</div></td></tr>`;
+            return `<tr><td>${drawNum}</td><td>${formatDate(calculateDrawDate(drawNum))}</td><td><div class="ball-container">${numbers.map(n => renderBallHTML(n, [])).join('')}</div></td><td><button class="delete-ticket-btn" onclick="deleteTicket(${drawNum})">Delete</button></td></tr>`;
         }).join('');
     } else upcomingSection.style.display = 'none';
 
