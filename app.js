@@ -175,7 +175,7 @@ function renderApp() {
         upcomingSection.style.display = 'block';
         upcomingTbody.innerHTML = upcomingDrawNums.map(drawNum => {
             const numbers = normalizeTicketNumbers(ticketsData[drawNum].numbers);
-            return `<tr><td>${drawNum}</td><td>${formatDate(calculateDrawDate(drawNum))}</td><td><div class="ball-container">${numbers.map(n => renderBallHTML(n, [])).join('')}</div></td><td><button class="delete-ticket-btn" onclick="deleteTicket(${drawNum})">Delete</button></td></tr>`;
+            return `<tr><td>${drawNum}</td><td>${formatDate(calculateDrawDate(drawNum))}</td><td><div class="ball-container">${numbers.map(n => renderBallHTML(n, [])).join('')}</div></td></tr>`;
         }).join('');
     } else upcomingSection.style.display = 'none';
 
@@ -189,10 +189,10 @@ function renderApp() {
         if (userTicket) {
             if (m1Matches >= 2 || m2Matches >= 2) {
                 const value = userTicket.winnings || 0;
-                winnings = value > 0 ? `<a href="#" onclick="setWinnings(${draw.draw_number}, '${Number.isInteger(value) ? value : value.toString()}'); return false;" class="enter-winnings-link">£${formatCurrency(value)}</a>` : `<a href="#" onclick="setWinnings(${draw.draw_number}); return false;" class="enter-winnings-link">Enter winnings</a>`;
+                winnings = value > 0 ? `<a href="#" onclick="setWinnings(${draw.draw_number}, '${Number.isInteger(value) ? value : value.toString()}'); return false;" class="enter-winnings-link">£${formatCurrency(value)}</a>` : '<span class="match-text">£0</span>';
             } else winnings = '<span class="match-text">£0</span>';
         }
-        return `<tr><td>${draw.draw_number}</td><td>${formatDate(draw.draw_date)}</td><td><div class="draw-stacked-container"><div class="draw-row"><span class="draw-label">${hasDraw2 ? 'Draw 1:' : ''}</span><div class="ball-container">${draw.draw1.numbers.map(n => renderBallHTML(n, ticketNums || [])).join('')}${renderBallHTML(draw.draw1.bonus, ticketNums || [], true)}</div></div>${hasDraw2 ? `<div class="draw-row"><span class="draw-label">Draw 2:</span><div class="ball-container">${draw.draw2.numbers.map(n => renderBallHTML(n, ticketNums || [])).join('')}${renderBallHTML(draw.draw2.bonus, ticketNums || [], true)}</div></div>` : ''}</div></td><td class="ticket-data-column">${ticketNums ? `<div class="draw-stacked-container"><div class="draw-row">${renderMatchCountHTML(draw.draw1.numbers, draw.draw1.bonus, ticketNums)}</div>${hasDraw2 ? `<div class="draw-row">${renderMatchCountHTML(draw.draw2.numbers, draw.draw2.bonus, ticketNums)}</div>` : ''}</div>` : '<span class="match-text">n/a</span>'}</td><td class="ticket-data-column">${winnings}</td>${userTicket ? `<td><button class="delete-ticket-btn" onclick="deleteTicket(${draw.draw_number})">Delete</button></td>` : '<td></td>'}</tr>`;
+        return `<tr><td>${draw.draw_number}</td><td>${formatDate(draw.draw_date)}</td><td><div class="draw-stacked-container"><div class="draw-row"><span class="draw-label">${hasDraw2 ? 'Draw 1:' : 'Main:'}</span><div class="ball-container">${draw.draw1.numbers.map(n => renderBallHTML(n, ticketNums)).join('')}</div></div>${hasDraw2 ? `<div class="draw-row"><span class="draw-label">Draw 2:</span><div class="ball-container">${draw.draw2.numbers.map(n => renderBallHTML(n, ticketNums)).join('')}</div></div>` : ''}</div></td><td class="ticket-data-column"><span class="match-text ${m1Matches + (hasDraw2 ? m2Matches : 0) > 0 ? 'has-match' : ''}">${m1Matches + (hasDraw2 ? m2Matches : 0)}</span></td><td class="ticket-data-column">${winnings}</td></tr>`;
     }).join('');
     updateTicketDataColumns();
 }
