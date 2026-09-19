@@ -1,5 +1,31 @@
 [
   {
+    "draw_number": 3208,
+    "draw_date": "2026-09-19",
+    "draw1": {
+      "numbers": [
+        14,
+        20,
+        30,
+        37,
+        40,
+        52
+      ],
+      "bonus": 45
+    },
+    "draw2": {
+      "numbers": [
+        5,
+        9,
+        12,
+        47,
+        49,
+        54
+      ],
+      "bonus": 1
+    }
+  },
+  {
     "draw_number": 3207,
     "draw_date": "2026-09-16",
     "draw1": {
@@ -901,171 +927,6 @@
         56
       ],
       "bonus": 20
-    }
-  },
-  {
-    "draw_number": 3168,
-    "draw_date": "2026-05-02",
-    "draw1": {
-      "numbers": [
-        3,
-        4,
-        6,
-        12,
-        29,
-        40
-      ],
-      "bonus": 19
-    }
-  },
-  {
-    "draw_number": 3167,
-    "draw_date": "2026-04-29",
-    "draw1": {
-      "numbers": [
-        4,
-        14,
-        22,
-        32,
-        38,
-        52
-      ],
-      "bonus": 27
-    }
-  },
-  {
-    "draw_number": 3166,
-    "draw_date": "2026-04-25",
-    "draw1": {
-      "numbers": [
-        3,
-        10,
-        14,
-        19,
-        32,
-        53
-      ],
-      "bonus": 23
-    }
-  },
-  {
-    "draw_number": 3165,
-    "draw_date": "2026-04-22",
-    "draw1": {
-      "numbers": [
-        6,
-        12,
-        18,
-        29,
-        49,
-        56
-      ],
-      "bonus": 7
-    }
-  },
-  {
-    "draw_number": 3164,
-    "draw_date": "2026-04-18",
-    "draw1": {
-      "numbers": [
-        1,
-        4,
-        12,
-        15,
-        39,
-        47
-      ],
-      "bonus": 48
-    }
-  },
-  {
-    "draw_number": 3163,
-    "draw_date": "2026-04-15",
-    "draw1": {
-      "numbers": [
-        22,
-        45,
-        49,
-        53,
-        54,
-        56
-      ],
-      "bonus": 25
-    }
-  },
-  {
-    "draw_number": 3162,
-    "draw_date": "2026-04-11",
-    "draw1": {
-      "numbers": [
-        7,
-        10,
-        14,
-        15,
-        17,
-        35
-      ],
-      "bonus": 31
-    }
-  },
-  {
-    "draw_number": 3161,
-    "draw_date": "2026-04-08",
-    "draw1": {
-      "numbers": [
-        27,
-        29,
-        34,
-        36,
-        43,
-        59
-      ],
-      "bonus": 37
-    }
-  },
-  {
-    "draw_number": 3160,
-    "draw_date": "2026-04-04",
-    "draw1": {
-      "numbers": [
-        15,
-        16,
-        23,
-        32,
-        42,
-        46
-      ],
-      "bonus": 52
-    }
-  },
-  {
-    "draw_number": 3159,
-    "draw_date": "2026-04-01",
-    "draw1": {
-      "numbers": [
-        7,
-        16,
-        23,
-        27,
-        35,
-        40
-      ],
-      "bonus": 48
-    }
-  },
-  {
-    "draw_number": 3158,
-    "draw_date": "2026-03-28",
-    "draw1": {
-      "numbers": [
-        9,
-        24,
-        35,
-        40,
-        47,
-        52
-      ],
-      "bonus": 18
     }
   },
   {
