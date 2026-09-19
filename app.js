@@ -48,6 +48,13 @@ function updateTicketDataColumns() {
     styleEl.textContent = hasTickets ? '' : '.ticket-data-column { display: none; }';
 }
 
+function updateStatsVisibility() {
+    const statsContainer = document.querySelector('.stats-container');
+    if (statsContainer) {
+        statsContainer.style.display = Object.keys(ticketsData).length > 0 ? '' : 'none';
+    }
+}
+
 // Mathematical Draw Calculation Functions
 function calculateDrawNumber(dateObj) {
     const deltaDays = Math.floor((dateObj - BASE_DRAW_DATE) / (1000 * 60 * 60 * 24));
@@ -151,6 +158,7 @@ function deleteTicket(drawNum) {
 // UI Rendering Logic
 function renderApp() {
     updateTicketDataColumns();
+    updateStatsVisibility();
     const drawnNumbersSet = new Set(drawsData.map(d => d.draw_number));
     const today = new Date();
     today.setHours(23, 59, 59, 999);
