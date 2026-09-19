@@ -175,7 +175,7 @@ function renderApp() {
         upcomingSection.style.display = 'block';
         upcomingTbody.innerHTML = upcomingDrawNums.map(drawNum => {
             const numbers = normalizeTicketNumbers(ticketsData[drawNum].numbers);
-            return `<tr><td>${drawNum}</td><td>${formatDate(calculateDrawDate(drawNum))}</td><td><div class="ball-container">${numbers.map(n => renderBallHTML(n, [])).join('')}</div></td><td><button class="delete-ticket-btn" onclick="deleteTicket(${drawNum})">Delete</button></td></tr>`;
+            return `<tr><td>${drawNum}</td><td>${formatDate(calculateDrawDate(drawNum))}</td><td><div class="ball-container">${numbers.map(n => renderBallHTML(n, [])).join('')}</div></td></tr>`;
         }).join('');
     } else upcomingSection.style.display = 'none';
 
@@ -194,7 +194,7 @@ function renderApp() {
         }
         const draw1Results = `${draw.draw1.numbers.map(n => renderBallHTML(n, ticketNums)).join('')}<span class="divider"></span>${renderBallHTML(draw.draw1.bonus, ticketNums, true)}`;
         const draw2Results = hasDraw2 ? `${draw.draw2.numbers.map(n => renderBallHTML(n, ticketNums)).join('')}<span class="divider"></span>${renderBallHTML(draw.draw2.bonus, ticketNums, true)}` : '';
-        return `<tr><td>${draw.draw_number}</td><td>${formatDate(draw.draw_date)}</td><td><div class="draw-stacked-container"><div class="draw-row"><span class="draw-label">${hasDraw2 ? 'Draw 1:' : 'Main:'}</span><div class="ball-container">${draw1Results}</div></div>${hasDraw2 ? `<div class="draw-row"><span class="draw-label">Draw 2:</span><div class="ball-container">${draw2Results}</div></div>` : ''}</div></td><td class="ticket-data-column"><span class="match-text ${m1Matches + (hasDraw2 ? m2Matches : 0) > 0 ? 'has-match' : ''}">${m1Matches + (hasDraw2 ? m2Matches : 0)}</span></td><td class="ticket-data-column">${winnings}</td></tr>`;
+        return `<tr><td>${draw.draw_number}</td><td>${formatDate(draw.draw_date)}</td><td><div class="draw-stacked-container"><div class="draw-row"><span class="draw-label">${hasDraw2 ? 'Draw 1:' : 'Main:'}</span><div class="ball-container">${draw1Results}</div></div>${hasDraw2 ? `<div class="draw-row"><span class="draw-label">Draw 2:</span><div class="ball-container">${draw2Results}</div></div>` : ''}</div></td><td class="ticket-data-column">${renderMatchCountHTML(draw.draw1.numbers, draw.draw1.bonus, ticketNums)}${hasDraw2 ? renderMatchCountHTML(draw.draw2.numbers, draw.draw2.bonus, ticketNums) : ''}</td><td class="ticket-data-column">${winnings}</td></tr>`;
     }).join('');
     updateTicketDataColumns();
 }
