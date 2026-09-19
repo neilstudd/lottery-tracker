@@ -42,6 +42,13 @@ function updatePaginationControls() {
     lastBtn.disabled = currentPage >= totalPages;
 }
 
+function updateTicketDataColumns() {
+    const hasTickets = Object.keys(ticketsData).length > 0;
+    document.querySelectorAll('.ticket-data-column').forEach(column => {
+        column.style.display = hasTickets ? '' : 'none';
+    });
+}
+
 // Mathematical Draw Calculation Functions
 function calculateDrawNumber(dateObj) {
     const deltaDays = Math.floor((dateObj - BASE_DRAW_DATE) / (1000 * 60 * 60 * 24));
@@ -160,6 +167,8 @@ function deleteTicket(drawNum) {
 
 // UI Rendering Logic
 function renderApp() {
+    updateTicketDataColumns();
+
     const drawnNumbersSet = new Set(drawsData.map(d => d.draw_number));
     const today = new Date();
     today.setHours(23, 59, 59, 999);
@@ -285,13 +294,13 @@ function renderApp() {
                         </div>` : ''}
                     </div>
                 </td>
-                <td>
+                <td class="ticket-data-column">
                     <div class="draw-stacked-container">
                         <div class="draw-row">${renderMatchCountHTML(draw.draw1.numbers, draw.draw1.bonus, ticketNums)}</div>
                         ${hasDraw2 ? `<div class="draw-row">${renderMatchCountHTML(draw.draw2.numbers, draw.draw2.bonus, ticketNums)}</div>` : ''}
                     </div>
                 </td>
-                <td>${winningsCellHTML}</td>
+                <td class="ticket-data-column">${winningsCellHTML}</td>
             </tr>
         `;
     }).join('');
