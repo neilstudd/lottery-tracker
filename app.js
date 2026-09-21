@@ -23,6 +23,13 @@ function getCurrentPageDraws() {
 }
 
 function updatePaginationControls() {
+    const paginationControls = document.getElementById('paginationControls');
+    const hasResults = drawsData.length > 0;
+
+    paginationControls.style.display = hasResults ? '' : 'none';
+
+    if (!hasResults) return;
+
     const totalPages = getTotalPages();
     document.getElementById('paginationStatus').textContent = `Page ${currentPage} of ${totalPages}`;
     document.getElementById('firstPageBtn').disabled = currentPage === 1;
