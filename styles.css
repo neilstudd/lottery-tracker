@@ -263,3 +263,7 @@ body {
 .numbers-row input { width: 50px; text-align: center; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
 .actions { display: flex; gap: 12px; align-items: center; margin-top: 24px; }
 .cancel-link { background: none; border: none; color: #666; cursor: pointer; text-decoration: underline; font-size: 1rem; }
+
+.ticket-data-column {
+    display: none;
+}

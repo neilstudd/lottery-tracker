@@ -46,7 +46,9 @@ function updateTicketDataColumns() {
         styleEl.id = 'ticket-data-column-style';
         document.head.appendChild(styleEl);
     }
-    styleEl.textContent = hasTickets ? '' : '.ticket-data-column { display: none; }';
+    styleEl.textContent = hasTickets 
+        ? '.ticket-data-column { display: table-cell; }'
+        : '';
 }
 
 function updateStatsVisibility() {
