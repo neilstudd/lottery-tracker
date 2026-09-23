@@ -133,7 +133,7 @@ function saveTickets() {
     renderApp();
 }
 
-function setWinnings(drawNum, currentAmount) {
+function setWinnings(drawNum, currentAmount = '') {
     const amount = prompt('Enter ticket winnings (£):', currentAmount !== undefined ? currentAmount : '');
     if (amount !== null && amount.trim() !== '') {
         const numAmount = parseFloat(amount.replace(/,/g, '').trim());
@@ -198,7 +198,7 @@ function renderApp() {
         if (userTicket) {
             if (m1Matches >= 2 || m2Matches >= 2) {
                 const value = userTicket.winnings || 0;
-                winnings = value > 0 ? `<a href="#" onclick="setWinnings(${draw.draw_number}, '${Number.isInteger(value) ? value : value.toString()}'); return false;" class="enter-winnings-link">£${formatCurrency(value)}</a>` : '<span class="match-text">£0</span>';
+                winnings = value > 0 ? `<a href="#" onclick="setWinnings(${draw.draw_number}, '${Number.isInteger(value) ? value : value.toString()}'); return false;" class="enter-winnings-link">£${formatCurrency(value)}</a>` : `<a href="#" onclick="setWinnings(${draw.draw_number}, ''); return false;" class="enter-winnings-link">£0</a>`;
             } else winnings = '<span class="match-text">£0</span>';
         }
         const draw1Results = `${draw.draw1.numbers.map(n => renderBallHTML(n, ticketNums)).join('')}<span class="divider"></span>${renderBallHTML(draw.draw1.bonus, ticketNums, true)}`;
